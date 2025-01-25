@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Car Price Predictor</title>
+<style>
+body {
+  font-family: sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 500px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+p {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Welcome to Car Price Predictor</h1>
+  <p>This app predicts the price of a car you want to sell. Try filling the details below:</p>
+  <form>
+    <div class="form-group">
+      <label for="company">Select the company:</label>
+      <select id="company" name="company">
+        <option value="">--select company --</option>
+    </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="model">Select the model:</label>
+      <select id="car_model" name="car_model">
+        <option value="">Select Model</option>
+      
+        </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="year">Select Year of Purchase:</label>
+      <select id="year" name="year">
+        <option value="">-- select year --</option>
+     </select>
+     </div>
+    
+    <div class="form-group">
+      <label for="fuel">Select the Fuel Type:</label>
+      <select id="fuel_type" name="fuel_type">
+        <option value="">-- select fuel type --</option>
+    </select>
+</div>
+    <div class="form-group">
+      <label for="kms_driven">Enter the Number of Kilometres that the car has travelled:</label>
+      <input type="number" id="kms_driven" name="kms_driven" placeholder="Enter the kilometres driven">
+    </div>
+    <button  class="btn btn-primary form-control" onclick="send_data()">Predict Price</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+function load_car_models(company_id, car_model_id) {
+    // ... Add logic to fetch and populate car models ...
+}
+
+function form_handler(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Collect data from the form
+    const company = document.getElementById('company').value;
+    const model = document.getElementById('model').value;
+    const year = document.getElementById('year').value;
+    const fuel = document.getElementById('fuel_type').value;
+    const kilometers = document.getElementById('kms_driven').value;
+
+    // Send data to the server
+    const fd = new FormData(document.querySelector('form'));
+    const xhr = new XMLHttpRequest({ mozSystem: true });
+
+    xhr.open('POST', '/predict', true); // Assuming '/predict' is your endpoint
+    document.getElementById('prediction').innerHTML = "Wait! Predicting Price.....";
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            document.getElementById('prediction').innerHTML = "Prediction: ₹" + xhr.responseText;
+        }
+    };
+
+    xhr.onload = function () {};
+
+    xhr.send(fd);
+}
+
+// Add event listener only once
+document.querySelector('form').addEventListener("submit", form_handler);
+  </script>
+
+</div>
+</body>
+</html>
